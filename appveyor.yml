@@ -1,0 +1,24 @@
+build: false
+
+environment:
+    PYTHON: "C:\\Python38"
+
+    CONAN_USERNAME: "maxxboehme"
+    CONAN_CHANNEL: "testing"
+    CONAN_STABLE_BRANCH_PATTERN: "release/*"
+    CONAN_UPLOAD: https://api.bintray.com/conan/maxxboehme/conan-packages
+
+    matrix:
+        # First Visual Studio version to support C++17
+        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+          CONAN_VISUAL_VERSIONS: 16
+
+
+install:
+  - set PATH=%PATH%;%PYTHON%/Scripts/
+  - pip.exe install conan --upgrade
+  - pip.exe install conan_package_tools
+  - conan user # It creates the conan data directory
+
+test_script:
+  - python conan/build.py
